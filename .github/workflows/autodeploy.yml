@@ -33,7 +33,7 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
           
       - name: dockerhub 에 생성한 이미지 푸시하기
-        run: docker push  ${{ secrets.DOCKERHUB_USER }}/web-app:latest  .
+        run: docker push  ${{ secrets.DOCKERHUB_USER }}/web-app:latest
 
   deploy:
     runs-on: ubuntu-latest
