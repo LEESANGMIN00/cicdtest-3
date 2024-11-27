@@ -8,6 +8,13 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+<<<<<<< HEAD
+    env:
+      MY_DATA_SOURCE: ${{ secrets.DATA_SOURCE }}
+      MY_DATA_USERNAME: ${{ secrets.DATA_USER }}
+      MY_DATA_PASSWORD: ${{ secrets.DATA_PWD }}
+=======
+>>>>>>> origin/main
 
     steps:  # 저장소에서 코드 가져오기
       - name: source code checkout
@@ -19,16 +26,32 @@ jobs:
           java-version: 17 # java 버전 설정
           distribution: 'temurin' # java 배포판 설정
 
+<<<<<<< HEAD
+#      - name: application.yml 파일 생성하기
+#        run:
+#          echo "${{ secrets.APPLICATION_YML }}" > src/main/resources/application.yml
+
+=======
+>>>>>>> origin/main
       - name: application build # gradle 로 빌드하기
         run:
           chmod +x ./gradlew && ./gradlew clean build
 
       - name: Docker 이미지 생성 & tag 붙이기
+<<<<<<< HEAD
+        run: docker build -t ${{ secrets.DOCKER_USER }}/web-app:latest .
+
+      - name: dockerhub login # 도커허브로 로그인하기
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USER }}
+=======
         run: docker build -t ${{ vars.DOCKER_HUB_USER }}/web-app:latest .
       - name: dockerhub login # 도커허브로 로그인하기
         uses: docker/login-action@v3
         with:
           username: ${{ vars.DOCKER_HUB_USER }}
+>>>>>>> origin/main
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
       - name: dockerhub 에 생성한 이미지 푸시하기
@@ -55,4 +78,12 @@ jobs:
             docker stop web-app || true
             docker rm web-app || true
             # 새로운 컨테이너 실행
+<<<<<<< HEAD
+            docker run -d -p 8080:8080 --name web-app --network=mynet \
+            -e MY_DATA_SOURCE=${{ secrets.DATA_SOURCE }} \  
+            -e MY_DATA_USERNAME=${{ secrets.DATA_USER }} \
+            -e MY_DATA_PASSWORD=${{ secrets.DATA_PWD }} \
+            ${{ secrets.DOCKER_USER }}/web-app:latest
+=======
             docker run -d -p 8080:8080 --name web-app ${{ vars.DOCKER_HUB_USER }}/web-app:latest
+>>>>>>> origin/main
